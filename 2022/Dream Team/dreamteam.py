@@ -23,6 +23,31 @@ def backtracking(pos1: list, pos2: list, pos3: list, pos4: list, pos5: list, bud
     return best_team
 
 
+def dynamicSED(a, b, lenA, lenB):
+    tabla = [[0 for x in range(lenB + 1)] for x in range(lenA + 1)]
+
+# caso 1.a, si el string a esta vacio, la respuesta es j
+    for j in range(lenB+1):
+        tabla[0][j] = j
+# caso 1.b, si el string b esta vacio, la respuesta es i
+    for i in range(lenA+1):
+        tabla[i][0] = i
+
+    for i in range(1, lenA + 1):
+        for j in range(1, lenB + 1):
+            # caso 2, si las letras son iguales, no se hace nada,
+            # #el numero de operaciones es igual al anterior
+            if a[i-1] == b[j-1]:
+                tabla[i][j] = tabla[i-1][j-1]
+
+            else:
+                # caso 3, se comparan las 3 operaciones
+             # y se mantiene la mejor
+                tabla[i][j] = 1 + min(tabla[i][j-1],  # ins
+                                      tabla[i-1][j], tabla[i-1][j-1])  # sust
+    return tabla[lenA][lenB]  # el resultado esta en la ultima celd
+
+
 def parser():
     while 1:
         data = list(input().split(' '))
